@@ -1,0 +1,30 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [13.2.0]
+    steps:
+      - uses: actions/checkout@master
+      - name: install, build, and test
+        run: |
+          yarn install
+          yarn lint
+          yarn build
+          yarn test
+        env:
+          CI: true
+      - name: Deploy to production
+        uses: test-deploy/deploy-to-github-pages-action@1.1.1
+        env:
+          AUTHOR: awb-pw
+          BUILD_PATH: public
+          GITHUB_PAGE_NAME: test-deploy
+          PA_TOKEN: ${{ 991a7ac0e3e29e68d61a98d292520bc8ade740f3 }}
+          USERNAME: awibox
+          EMAIL: igirka970@gmail.cok
